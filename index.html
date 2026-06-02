@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ты готов со мной поиграть?</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#050510;
+    color:white;
+    overflow:hidden;
+    height:100vh;
+}
+
+#background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+}
+
+.pixel{
+    position:absolute;
+    opacity:.15;
+    animation:float linear infinite;
+    user-select:none;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(110vh) rotate(0deg);
+    }
+    to{
+        transform:translateY(-200px) rotate(360deg);
+    }
+}
+
+.screen{
+    position:absolute;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:5;
+    padding:20px;
+}
+
+.active{
+    display:flex;
+}
+
+.title{
+    font-size:clamp(2rem,5vw,4rem);
+    text-align:center;
+    margin-bottom:30px;
+    text-shadow:0 0 20px #00ffcc;
+}
+
+.buttons{
+    display:flex;
+    gap:20px;
+}
+
+.btn{
+    padding:18px 45px;
+    border:none;
+    border-radius:15px;
+    font-size:22px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+.yes{
+    background:#00c853;
+    color:white;
+}
+
+.no{
+    background:#ff3d3d;
+    color:white;
+}
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(220px,300px));
+    gap:15px;
+}
+
+.game{
+    background:rgba(255,255,255,.06);
+    border:2px solid rgba(255,255,255,.12);
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.game:hover{
+    transform:translateY(-5px);
+    border-color:#00ffcc;
+}
+
+.game.selected{
+    border-color:#00ffcc;
+    box-shadow:0 0 20px rgba(0,255,204,.4);
+}
+
+.submit{
+    margin-top:20px;
+    padding:16px 40px;
+    border:none;
+    border-radius:15px;
+    font-size:20px;
+    cursor:pointer;
+    background:#0091ff;
+    color:white;
+}
+
+.result{
+    font-size:28px;
+    margin-top:15px;
+}
+
+.message{
+    margin-top:25px;
+    font-size:20px;
+    text-align:center;
+    max-width:700px;
+    line-height:1.8;
+}
+</style>
+</head>
+
+<body>
+
+<div id="background"></div>
+
+<section id="screen1" class="screen active">
+
+<h1 class="title">
+Ты готов со мной поиграть?
+</h1>
+
+<div class="buttons">
+<button class="btn yes" id="yesBtn">
+Да
+</button>
+
+<button class="btn no" id="noBtn">
+Нет
+</button>
+</div>
+
+</section>
+
+<section id="screen2" class="screen">
+
+<h1 class="title">
+Во что мы поиграем?
+</h1>
+
+<div class="games">
+
+<div class="game">Half-Life</div>
+<div class="game">GTA 5</div>
+<div class="game">Redmatch 2</div>
+<div class="game">Forza Horizon 5</div>
+<div class="game">Counter-Strike 2</div>
+<div class="game">Team Fortress 2</div>
+
+</div>
+
+<button class="submit" id="submitBtn">
+Отправить
+</button>
+
+</section>
+
+<section id="screen3" class="screen">
+
+<h1 class="title">
+Миссия принята 🎮
+</h1>
+
+<div class="result" id="result"></div>
+
+<p class="message">
+Твой выбор сохранён.<br><br>
+Скоро свяжусь с тобой в Discord,
+чтобы обсудить нашу игровую сессию.<br><br>
+Не выходи из сети — приключение начинается совсем скоро.
+</p>
+
+</section>
+
+<script>
+const background=document.getElementById("background");
+
+for(let i=0;i<40;i++){
+
+    const pad=document.createElement("div");
+
+    pad.className="pixel";
+    pad.innerHTML="🎮";
+
+    pad.style.left=Math.random()*100+"%";
+    pad.style.fontSize=(25+Math.random()*40)+"px";
+    pad.style.animationDuration=(15+Math.random()*25)+"s";
+    pad.style.animationDelay=(-Math.random()*20)+"s";
+
+    background.appendChild(pad);
+}
+
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+
+const screen1=document.getElementById("screen1");
+const screen2=document.getElementById("screen2");
+const screen3=document.getElementById("screen3");
+
+yesBtn.onclick=()=>{
+    screen1.classList.remove("active");
+    screen2.classList.add("active");
+};
+
+document.addEventListener("mousemove",e=>{
+
+    const rect=noBtn.getBoundingClientRect();
+
+    const x=rect.left+rect.width/2;
+    const y=rect.top+rect.height/2;
+
+    const distance=Math.hypot(
+        e.clientX-x,
+        e.clientY-y
+    );
+
+    if(distance<130){
+
+        noBtn.style.position="fixed";
+
+        noBtn.style.left=
+            Math.random()*
+            (window.innerWidth-rect.width)
+            +"px";
+
+        noBtn.style.top=
+            Math.random()*
+            (window.innerHeight-rect.height)
+            +"px";
+    }
+});
+
+const games=document.querySelectorAll(".game");
+
+let selectedGame=null;
+
+games.forEach(game=>{
+
+    game.onclick=()=>{
+
+        games.forEach(g=>
+            g.classList.remove("selected")
+        );
+
+        game.classList.add("selected");
+
+        selectedGame=
+            game.textContent;
+    };
+});
+
+document.getElementById("submitBtn").onclick = async () => {
+
+    if (!selectedGame) {
+        alert("Выбери игру");
+        return;
+    }
+
+    try {
+
+        await fetch("https://discord.com/api/webhooks/1511477887859953775/aaHzpIh6r3VoRZ_DrN8_NOs4xATI5jqcNzUeV4zMBNcmwC8AyNfqKCmU0qCreGD4dENB", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content:
+                    "🎮 Новый выбор игры\n\n" +
+                    "Игра: " + selectedGame
+            })
+        });
+
+    } catch (e) {
+        console.error(e);
+    }
+
+    screen2.classList.remove("active");
+    screen3.classList.add("active");
+
+    document.getElementById("result")
+        .textContent =
+        "Ты выбрал: " + selectedGame;
+};
+
+    if(!selectedGame){
+        alert("Выбери игру");
+        return;
+    }
+
+    screen2.classList.remove("active");
+    screen3.classList.add("active");
+
+    document.getElementById("result")
+        .textContent=
+        "Ты выбрал: "+selectedGame;
+};
+</script>
+
+</body>
+</html>
