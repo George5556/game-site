@@ -304,22 +304,23 @@ document.getElementById("submitBtn").onclick = async () => {
 
     try {
 
-        await fetch("https://discord.com/api/webhooks/1511477887859953775/aaHzpIh6r3VoRZ_DrN8_NOs4xATI5jqcNzUeV4zMBNcmwC8AyNfqKCmU0qCreGD4dENB", {
+        await fetch("ТВОЙ_WEBHOOK_URL", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-body: JSON.stringify({
-    content:
-        "<@951460910898229258>\n\n" +
-        "🎮 Новый выбор игры\n\n" +
-        "Игра: " + selectedGame + "\n" +
-        "Дата и время: " + dateTime,
+            body: JSON.stringify({
+                content:
+                    "<@951460910898229258>\n\n" +
+                    "🎮 Новый выбор игры\n\n" +
+                    "Игра: " + selectedGame + "\n" +
+                    "Дата и время: " + dateTime,
 
-    allowed_mentions: {
-        users: ["951460910898229258"]
-    }
-})
+                allowed_mentions: {
+                    users: ["951460910898229258"]
+                }
+            })
+        });
 
     } catch (e) {
         console.error(e);
@@ -328,8 +329,7 @@ body: JSON.stringify({
     screen2.classList.remove("active");
     screen3.classList.add("active");
 
-    document.getElementById("result")
-        .textContent =
+    document.getElementById("result").textContent =
         "Ты выбрал: " + selectedGame;
 };
 </script>
