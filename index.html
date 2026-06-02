@@ -309,13 +309,11 @@ document.getElementById("submitBtn").onclick = async () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-    content:
-        "@Dorogoy\n\n" +
-        "🎮 Новый выбор игры\n\n" +
-        "Игра: " + selectedGame + "\n" +
-        "Дата и время: " + dateTime
-})
+ content:
+    "<@951460910898229258>\n\n" +
+    "🎮 Новый выбор игры\n\n" +
+    "Игра: " + selectedGame + "\n" +
+    "Дата и время: " + dateTime
         });
 
     } catch (e) {
