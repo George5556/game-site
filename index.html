@@ -309,12 +309,17 @@ document.getElementById("submitBtn").onclick = async () => {
             headers: {
                 "Content-Type": "application/json"
             },
- content:
-    "<@951460910898229258>\n\n" +
-    "🎮 Новый выбор игры\n\n" +
-    "Игра: " + selectedGame + "\n" +
-    "Дата и время: " + dateTime
-        });
+body: JSON.stringify({
+    content:
+        "<@951460910898229258>\n\n" +
+        "🎮 Новый выбор игры\n\n" +
+        "Игра: " + selectedGame + "\n" +
+        "Дата и время: " + dateTime,
+
+    allowed_mentions: {
+        users: ["951460910898229258"]
+    }
+})
 
     } catch (e) {
         console.error(e);
