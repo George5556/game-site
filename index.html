@@ -291,6 +291,17 @@ document.getElementById("submitBtn").onclick = async () => {
         return;
     }
 
+    const now = new Date();
+
+    const dateTime = now.toLocaleString("ru-RU", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
     try {
 
         await fetch("https://discord.com/api/webhooks/1511477887859953775/aaHzpIh6r3VoRZ_DrN8_NOs4xATI5jqcNzUeV4zMBNcmwC8AyNfqKCmU0qCreGD4dENB", {
@@ -301,7 +312,8 @@ document.getElementById("submitBtn").onclick = async () => {
             body: JSON.stringify({
                 content:
                     "🎮 Новый выбор игры\n\n" +
-                    "Игра: " + selectedGame
+                    "Игра: " + selectedGame + "\n" +
+                    "Дата и время: " + dateTime
             })
         });
 
