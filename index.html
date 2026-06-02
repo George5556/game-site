@@ -316,19 +316,6 @@ document.getElementById("submitBtn").onclick = async () => {
         .textContent =
         "Ты выбрал: " + selectedGame;
 };
-
-    if(!selectedGame){
-        alert("Выбери игру");
-        return;
-    }
-
-    screen2.classList.remove("active");
-    screen3.classList.add("active");
-
-    document.getElementById("result")
-        .textContent=
-        "Ты выбрал: "+selectedGame;
-};
 </script>
 
 </body>
